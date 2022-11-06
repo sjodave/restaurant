@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Bookmark from "./components/Bookmark";
+import HomePage from "./components/HomePage";
+import Login from "./components/Login";
+import SideBar from "./components/Sidebar/Sidebar";
+import { useSelector } from "react-redux";
+import Logout from "./components/Logout";
+const App = () => {
+  const { isLoggedIn } = useSelector((state) => state.reduxStore);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Login />}></Route>
+      </Routes>
+      {isLoggedIn ? (
+        <SideBar>
+          <Routes>
+            <Route path="/HomePage" element={<HomePage />}></Route>
+            <Route path="/Bookmarks" element={<Bookmark />}></Route>
+            <Route path="/Logout" element={<Logout />}></Route>
+          </Routes>
+        </SideBar>
+      ) : (
+        ""
+      )}
+    </>
   );
-}
+};
 
 export default App;
